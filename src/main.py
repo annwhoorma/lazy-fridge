@@ -38,8 +38,8 @@ def handle_image(message):
     print(f"Detected: {detected_labels}")
     print(f"Undetected: {undetected_labels}")
     detected_labels_counter = Counter(detected_labels)
-    smart_update_notion(detected_labels_counter, undetected_labels)
     bot.reply_to(message, detected_labels_to_message(detected_labels_counter))
+    smart_update_notion(detected_labels_counter, undetected_labels)
 
 
 def main():
@@ -50,8 +50,6 @@ def main():
     bot.infinity_polling()
 
 
-if __name__ == '__main__':
-    # Telegram Bot Token
-    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-    main()
-    app.run(host='0.0.0.0', port=5000)  # Run Flask app on port 5000
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+main()
+app.run(host='0.0.0.0', port=5000)  # Run Flask app on port 5000
