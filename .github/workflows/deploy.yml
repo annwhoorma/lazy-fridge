@@ -25,7 +25,7 @@ jobs:
 
       - name: Run Deployment
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           DATABASE_ID: ${{ secrets.DATABASE_ID }}
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
         run: |
