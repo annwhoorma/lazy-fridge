@@ -30,6 +30,4 @@ jobs:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
         run: |
           export FLASK_ENV=production
-          echo "${{ secrets.DIGITAL_OCEAN }}" > ssh_private_key
-          chmod 600 ssh_private_key
-          ssh -i ssh_private_key root@161.35.88.143 "cd src && flask --app main run"
+          sshpass -p "${{ secrets.DIGITAL_OCEAN_PASSWORD }}" ssh root@161.35.88.143 "cd src && flask --app main run"
