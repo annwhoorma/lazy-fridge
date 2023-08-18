@@ -30,4 +30,5 @@ jobs:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
         run: |
           export FLASK_ENV=production
+          cd src
           flask --app main run
