@@ -23,7 +23,7 @@ jobs:
           export FLASK_ENV=production
           ssh -o StrictHostKeyChecking=no root@161.35.88.143 "rm -R lazy-fridge"
           ssh -o StrictHostKeyChecking=no root@161.35.88.143 "git clone https://github.com/annwhoorma/lazy-fridge"
-          ssh -o StrictHostKeyChecking=no root@161.35.88.143 "sudo apt install Python3.10"
+          ssh -o StrictHostKeyChecking=no root@161.35.88.143 "sudo apt install python3-pip"
           ssh -o StrictHostKeyChecking=no root@161.35.88.143 "python3 -m ensurepip --upgrade"
           ssh -o StrictHostKeyChecking=no root@161.35.88.143 "cd lazy-fridge && pip3 install -r requirements.txt"
           ssh -o StrictHostKeyChecking=no root@161.35.88.143 "cd lazy-fridge/src && flask --app main run"
