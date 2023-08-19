@@ -20,9 +20,12 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          sudo apt-get install sshpass
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.DIGITALOCEAN_PRIVATE_KEY }}
 
       - name: Run Deployment
         env:
@@ -31,4 +34,4 @@ jobs:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
         run: |
           export FLASK_ENV=production
-          sshpass -p "${{ secrets.DIGITAL_OCEAN_PASSWORD }}" ssh root@161.35.88.143 "cd src && flask --app main run"
+          ssh root@161.35.88.143 "cd src && flask --app main run"
