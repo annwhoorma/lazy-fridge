@@ -34,4 +34,5 @@ jobs:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
         run: |
           export FLASK_ENV=production
-          ssh -o StrictHostKeyChecking=no root@161.35.88.143 "cd src && flask --app main run"
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_private_key
+          ssh -i ssh_private_key -o StrictHostKeyChecking=no root@161.35.88.143 "cd src && flask --app main run"
