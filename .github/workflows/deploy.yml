@@ -10,20 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: "3.10"
-          cache: 'pip'
-
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
       - uses: webfactory/ssh-agent@v0.7.0
         with:
           ssh-private-key: ${{ secrets.DIGITALOCEAN_PRIVATE_KEY }}
@@ -35,4 +21,7 @@ jobs:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
         run: |
           export FLASK_ENV=production
-          ssh -o StrictHostKeyChecking=no root@161.35.88.143 "cd src && flask --app main run"
+          ssh -o StrictHostKeyChecking=no root@161.35.88.143 "git clone https://github.com/annwhoorma/lazy-fridge"
+          ssh -o StrictHostKeyChecking=no root@161.35.88.143 "python -m pip install --upgrade pip"
+          ssh -o StrictHostKeyChecking=no root@161.35.88.143 "pip install -r requirements.txt"
+          ssh -o StrictHostKeyChecking=no root@161.35.88.143 "cd lazy-fridge/src && flask --app main run"
