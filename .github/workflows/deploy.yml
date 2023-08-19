@@ -21,6 +21,7 @@ jobs:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
         run: |
           export FLASK_ENV=production
+          ssh -o StrictHostKeyChecking=no root@161.35.88.143 "rm -R lazy-fridge"
           ssh -o StrictHostKeyChecking=no root@161.35.88.143 "git clone https://github.com/annwhoorma/lazy-fridge"
           ssh -o StrictHostKeyChecking=no root@161.35.88.143 "sudo apt install Python3.10"
           ssh -o StrictHostKeyChecking=no root@161.35.88.143 "python -m pip install --upgrade pip"
