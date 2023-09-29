@@ -21,8 +21,6 @@ The `DATABASE_ID` must be the id of the Notion database you want to use for the 
 - Amount (type: number)
 - Last updated (type: date)
 
-Example of the database is below.
-
 ![Database's example](readme_images/img.png)
 
 Note that NOTION_TOKEN must be created on [Notion's integrations page](https://www.notion.so/my-integrations).
