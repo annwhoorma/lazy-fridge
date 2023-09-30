@@ -1,0 +1,50 @@
+name: Deploy Systemd Job Configuration
+
+on:
+  workflow_dispatch:
+    inputs:
+      ip_address:
+        description: 'Remote Server IP Address'
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.DIGITALOCEAN_PRIVATE_KEY }}
+
+      - name: Deploy to Remote Server
+        env:
+          SSH_USERNAME: root
+        run: |
+          # Define the remote IP address
+          remote_ip="${{ github.event.inputs.ip_address }}"
+          
+          # Create lazy-fridge-app
+            echo "[Unit]
+            Description=Lazy Fridge App
+            After=network.target
+            StartLimitIntervalSec=0
+          
+            [Service]
+            Type=simple
+            Restart=always
+            RestartSec=1
+            User=$SSH_USERNAME
+            WorkingDirectory=/root/lazy-fridge/src
+            ExecStart=/usr/bin/python3.10 -m flask --app main run
+            
+            [Install]
+            WantedBy=multi-user.target" > lazy-fridge-app.service
+
+          # Copy the systemd job configuration to the remote server
+          scp -o StrictHostKeyChecking=no lazy-fridge-app.service "$SSH_USERNAME@$remote_ip:/etc/systemd/system/"
+
+          # Connect to the remote server and reload systemd
+          ssh -o StrictHostKeyChecking=no "$SSH_USERNAME@$remote_ip" sudo systemctl daemon-reload
+
+          # Enable and start the systemd service
+          ssh -o StrictHostKeyChecking=no "$SSH_USERNAME@$remote_ip" sudo systemctl enable lazy-fridge-app
