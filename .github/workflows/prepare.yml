@@ -41,13 +41,13 @@ jobs:
           WantedBy=multi-user.target" > lazy-fridge-app.service
 
           # Copy the systemd job configuration to the remote server
-          scp -o StrictHostKeyChecking=no lazy-fridge-app.service "$SSH_USERNAME@$remote_ip:/etc/systemd/system/"
+          scp -o StrictHostKeyChecking=no lazy-fridge-app.service "$SSH_USERNAME@$remote_ip:/etc/systemd/user/"
 
           # Connect to the remote server and reload systemd
           ssh -o StrictHostKeyChecking=no "$SSH_USERNAME@$remote_ip" systemctl daemon-reload
 
           # Enable and start the systemd service
-          ssh -o StrictHostKeyChecking=no "$SSH_USERNAME@$remote_ip" systemctl enable lazy-fridge-app
+          ssh -o StrictHostKeyChecking=no "$SSH_USERNAME@$remote_ip" systemctl --user enable lazy-fridge-app
           
           # Clone the repository and install dependencies
           ssh -o StrictHostKeyChecking=no "$SSH_USERNAME@$remote_ip" rm -R lazy-fridge
