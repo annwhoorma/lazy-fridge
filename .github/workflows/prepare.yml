@@ -50,5 +50,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no "$SSH_USERNAME@$remote_ip" systemctl enable lazy-fridge-app
           
           # Clone the repository and install dependencies
+          ssh -o StrictHostKeyChecking=no "$SSH_USERNAME@$remote_ip" rm -R lazy-fridge
           ssh -o StrictHostKeyChecking=no "$SSH_USERNAME@$remote_ip" git clone https://github.com/annwhoorma/lazy-fridge
           ssh -o StrictHostKeyChecking=no "$SSH_USERNAME@$remote_ip" apt install -y python3.10 python3-pip
