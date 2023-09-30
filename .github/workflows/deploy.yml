@@ -21,12 +21,10 @@ jobs:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
         run: |
           export FLASK_ENV=production
-          ssh -o StrictHostKeyChecking=no root@142.93.224.135 "rm -R lazy-fridge"
-          ssh -o StrictHostKeyChecking=no root@142.93.224.135 "git clone https://github.com/annwhoorma/lazy-fridge"
-          ssh -o StrictHostKeyChecking=no root@142.93.224.135 "sudo apt install -y python3.10 python3-pip"
+          ssh -o StrictHostKeyChecking=no root@142.93.224.135 "cd lazy-fridge && git pull"
           ssh -o StrictHostKeyChecking=no root@142.93.224.135 "cd lazy-fridge && pip3 install -r requirements.txt"
           echo "TELEGRAM_TOKEN=$TELEGRAM_TOKEN" >> .env
           echo "NOTION_TOKEN=$NOTION_TOKEN" >> .env
           echo "DATABASE_ID=$DATABASE_ID" >> .env
           scp .env root@142.93.224.135:lazy-fridge/src
-          ssh -o StrictHostKeyChecking=no root@142.93.224.135 "cd lazy-fridge/src && flask --app main run"
+          ssh -o StrictHostKeyChecking=no root@142.93.224.135 "systemctl --user restart lazy-fridge-app"
